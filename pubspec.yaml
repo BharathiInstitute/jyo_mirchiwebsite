@@ -1,0 +1,26 @@
+name: jyo_mirchiwebsite
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/mirjyo1.jpg
+    - assets/mirjyo2.jpg
+    - assets/mirjyo3.jpg
+    - assets/mirjyo4.jpg
+    - assets/mirjyo3.jpg
+    - assets/mirjyo6.jpg
