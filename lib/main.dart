@@ -49,7 +49,6 @@ class MainApp extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // Add this for "Get Quote" at the top right
                     Align(
                       alignment: Alignment.centerRight,
                       child: Container(
@@ -74,51 +73,94 @@ class MainApp extends StatelessWidget {
                 ),
               )
             : AppBar(
-                backgroundColor: const Color.fromARGB(255, 12, 12, 12),
+                backgroundColor: const Color.fromRGBO(245, 243, 243, 1),
                 toolbarHeight: 60,
+                automaticallyImplyLeading: false, // Remove default drawer icon
                 title: Image.asset(
                   'assets/mirjyo1.jpg',
                   height: 40,
                 ),
-              ),
-        drawer: isDesktop
-            ? null
-            : Drawer(
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    DrawerHeader(
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                      ),
-                      child: const Text(
-                        'Menu',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                        ),
-                      ),
+                actions: [
+                  Builder(
+                    builder: (context) => IconButton(
+                      icon: const Icon(Icons.menu, color: Colors.black),
+                      onPressed: () {
+                        // Show the Drawer as a modal from the top right
+                        showModalBottomSheet(
+                          context: context,
+                          backgroundColor: Colors.transparent,
+                          isScrollControlled: true,
+                          builder: (context) => Align(
+                            alignment: Alignment.topRight,
+                            child: FractionallySizedBox(
+                              widthFactor: 0.7,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(24),
+                                    bottomLeft: Radius.circular(24),
+                                  ),
+                                ),
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.zero,
+                                  children: [
+                                    DrawerHeader(
+                                      decoration: const BoxDecoration(
+                                        color: Colors.red,
+                                      ),
+                                      child: const Text(
+                                        'Menu',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 24,
+                                        ),
+                                      ),
+                                    ),
+                                    ListTile(
+                                      leading: const Icon(Icons.home),
+                                      title: const Text('Home'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    ListTile(
+                                      leading: const Icon(Icons.info),
+                                      title: const Text('About'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    ListTile(
+                                      leading: const Icon(Icons.contact_mail),
+                                      title: const Text('Contact'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    ListTile(
+                                      leading: const Icon(Icons.request_quote),
+                                      title: const Text('Get Quote'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      tooltip: 'Open navigation menu',
                     ),
-                    ListTile(
-                      leading: const Icon(Icons.home),
-                      title: const Text('Home'),
-                      onTap: () {},
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.info),
-                      title: const Text('About'),
-                      onTap: () {},
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.contact_mail),
-                      title: const Text('Contact'),
-                      onTap: () {},
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
         body: LayoutBuilder(
           builder: (context, constraints) {
+            final mediaQuery = MediaQuery.of(context);
             double horizontalPadding = constraints.maxWidth > 1200
                 ? 120
                 : constraints.maxWidth > 900
@@ -363,65 +405,122 @@ class MainApp extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 32),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              // Left side: you can add text or leave empty for spacing
-                              Expanded(
-                                flex: 2,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Exception',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.redAccent,
-                                          letterSpacing: 1.2,
+                          // Responsive Exception section: image above text for mobile (<600px), Row for larger screens
+                          (constraints.maxWidth < 600)
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(24),
+                                      child: Image.asset(
+                                        'assets/mirjyo3.jpg',
+                                        width: double.infinity,
+                                        height: 200,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Exception',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.redAccent,
+                                              letterSpacing: 1.2,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 12),
+                                          Text(
+                                            'What makes our project unique',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black87,
+                                              letterSpacing: 1.1,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 12),
+                                          Text(
+                                            'Our project stands out through innovative design, sustainable construction, and a commitment to customer satisfaction. '
+                                            'We blend modern architecture with eco-friendly practices, ensuring every home is both beautiful and responsible. '
+                                            'Attention to detail and a passion for excellence drive us to deliver spaces that truly enrich lives.',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black87,
+                                              height: 1.5,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // Left side: text
+                                    Expanded(
+                                      flex: 2,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Exception',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.redAccent,
+                                                letterSpacing: 1.2,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 24),
+                                            Text(
+                                              'What makes our project unique',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black87,
+                                                letterSpacing: 1.1,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 16),
+                                            Text(
+                                              'Our project stands out through innovative design, sustainable construction, and a commitment to customer satisfaction. '
+                                              'We blend modern architecture with eco-friendly practices, ensuring every home is both beautiful and responsible. '
+                                              'Attention to detail and a passion for excellence drive us to deliver spaces that truly enrich lives.',
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.black87,
+                                                height: 1.5,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      const SizedBox(height: 24),
-                                      Text(
-                                        'What makes our project unique',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black87,
-                                          letterSpacing: 1.1,
+                                    ),
+                                    // Right side: image
+                                    Expanded(
+                                      flex: 3,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(24),
+                                        child: Image.asset(
+                                          'assets/mirjyo3.jpg',
+                                          width: 800,
+                                          height: 400,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
-                                      const SizedBox(height: 16),
-                                      Text(
-                                        'Our project stands out through innovative design, sustainable construction, and a commitment to customer satisfaction. '
-                                        'We blend modern architecture with eco-friendly practices, ensuring every home is both beautiful and responsible. '
-                                        'Attention to detail and a passion for excellence drive us to deliver spaces that truly enrich lives.',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.black87,
-                                          height: 1.5,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              // Right side: image
-                              Expanded(
-                                flex: 3,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(24), // Adjust the radius as needed
-                                  child: Image.asset(
-                                    'assets/mirjyo3.jpg',
-                                    height: 400,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
                           const SizedBox(height: 32),
                           Center(
                             child: Column(
@@ -590,54 +689,31 @@ class MainApp extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              // Prime Location
-                              Expanded(
-                                flex: 1,
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.location_on,
-                                      color: const Color.fromARGB(255, 39, 39, 39),
-                                      size: 44,
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Text(
-                                      'Prime Location',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color.fromARGB(255, 27, 27, 27),
-                                        letterSpacing: 1.1,
+                              // Prime Location (only show on tablet/desktop)
+                              if (constraints.maxWidth >= 600)
+                                Expanded(
+                                  flex: 1,
+                                  child: Column(
+                                    children: [
+                                      Icon(
+                                        Icons.location_on,
+                                        color: const Color.fromARGB(255, 39, 39, 39),
+                                        size: 44,
                                       ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // Prime Location
-                              Expanded(
-                                flex: 1,
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.location_on,
-                                      color: const Color.fromARGB(255, 39, 39, 39),
-                                      size: 44,
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Text(
-                                      'Prime Location',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color.fromARGB(255, 41, 39, 39),
-                                        letterSpacing: 1.1,
+                                      const SizedBox(height: 12),
+                                      Text(
+                                        'Prime Location',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: const Color.fromARGB(255, 27, 27, 27),
+                                          letterSpacing: 1.1,
+                                        ),
+                                        textAlign: TextAlign.center,
                                       ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                           const SizedBox(height: 32),
@@ -740,131 +816,245 @@ class MainApp extends StatelessWidget {
                           ),
                           const SizedBox(height: 32),
                           Container(
-                            color: Color.fromARGB(255, 6, 12, 66), // Light grey background, change as needed
+                            color: const Color.fromARGB(255, 6, 12, 66),
                             padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 8),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Office Address
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                            child: constraints.maxWidth < 600
+                                ? Column(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
                                     children: [
-                                      Text(
-                                        'Office Address',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color.fromRGBO(248, 246, 246, 1),
-                                          letterSpacing: 1.1,
+                                      // Office Address
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Office Address',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color.fromRGBO(248, 246, 246, 1),
+                                                letterSpacing: 1.1,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              'Mirchi Developers\n123 Main Road, Near City Center,\nHyderabad, Telangana 500001\nPhone: +91 98765 43210\nEmail: info@mirchidevelopers.com',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: const Color.fromRGBO(247, 245, 245, 1),
+                                                height: 1.5,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        'Mirchi Developers\n'
-                                        '123 Main Road, Near City Center,\n'
-                                        'Hyderabad, Telangana 500001\n'
-                                        'Phone: +91 98765 43210\n'
-                                        'Email: info@mirchidevelopers.com',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: const Color.fromRGBO(247, 245, 245, 1),
-                                          height: 1.5,
+                                      const Divider(color: Colors.white24, thickness: 1),
+                                      // Project Site
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Project Site',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color.fromRGBO(248, 246, 246, 1),
+                                                letterSpacing: 1.1,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              'Mirchi Developers Project Site\nPlot No. 45, Green Meadows Layout,\nNear Outer Ring Road, Gachibowli,\nHyderabad, Telangana 500032',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: const Color.fromRGBO(250, 249, 249, 1),
+                                                height: 1.5,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
                                         ),
-                                        textAlign: TextAlign.center,
+                                      ),
+                                      const Divider(color: Colors.white24, thickness: 1),
+                                      // Contact Numbers
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Contact Numbers',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color.fromRGBO(248, 247, 247, 1),
+                                                letterSpacing: 1.1,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              'Sales: +91 98765 43210\nSupport: +91 91234 56789\nLandline: 040-12345678',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: const Color.fromRGBO(241, 239, 239, 1),
+                                                height: 1.5,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const Divider(color: Colors.white24, thickness: 1),
+                                      // Working Hours
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Working Hours',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color.fromRGBO(241, 239, 239, 1),
+                                                letterSpacing: 1.1,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              'Monday to Saturday: 9:00 AM – 7:00 PM\nSunday: Closed',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: const Color.fromRGBO(243, 241, 241, 1),
+                                                height: 1.5,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      // Office Address
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Office Address',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color.fromRGBO(248, 246, 246, 1),
+                                                letterSpacing: 1.1,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              'Mirchi Developers\n123 Main Road, Near City Center,\nHyderabad, Telangana 500001\nPhone: +91 98765 43210\nEmail: info@mirchidevelopers.com',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: const Color.fromRGBO(247, 245, 245, 1),
+                                                height: 1.5,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(width: 16),
+                                      // Project Site
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Project Site',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color.fromRGBO(248, 246, 246, 1),
+                                                letterSpacing: 1.1,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              'Mirchi Developers Project Site\nPlot No. 45, Green Meadows Layout,\nNear Outer Ring Road, Gachibowli,\nHyderabad, Telangana 500032',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: const Color.fromRGBO(250, 249, 249, 1),
+                                                height: 1.5,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(width: 16),
+                                      // Contact Numbers
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Contact Numbers',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color.fromRGBO(248, 247, 247, 1),
+                                                letterSpacing: 1.1,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              'Sales: +91 98765 43210\nSupport: +91 91234 56789\nLandline: 040-12345678',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: const Color.fromRGBO(241, 239, 239, 1),
+                                                height: 1.5,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(width: 16),
+                                      // Working Hours
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Working Hours',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color.fromRGBO(241, 239, 239, 1),
+                                                letterSpacing: 1.1,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              'Monday to Saturday: 9:00 AM – 7:00 PM\nSunday: Closed',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: const Color.fromRGBO(243, 241, 241, 1),
+                                                height: 1.5,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ),
-                                // Project Site
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Project Site',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color.fromRGBO(248, 246, 246, 1),
-                                          letterSpacing: 1.1,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        'Mirchi Developers Project Site\n'
-                                        'Plot No. 45, Green Meadows Layout,\n'
-                                        'Near Outer Ring Road, Gachibowli,\n'
-                                        'Hyderabad, Telangana 500032',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: const Color.fromRGBO(250, 249, 249, 1),
-                                          height: 1.5,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // Contact Numbers
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Contact Numbers',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color.fromRGBO(248, 247, 247, 1),
-                                          letterSpacing: 1.1,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        'Sales: +91 98765 43210\n'
-                                        'Support: +91 91234 56789\n'
-                                        'Landline: 040-12345678',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: const Color.fromRGBO(241, 239, 239, 1),
-                                          height: 1.5,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // Working Hours
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Working Hours',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color.fromRGBO(241, 239, 239, 1),
-                                          letterSpacing: 1.1,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        'Monday to Saturday: 9:00 AM – 7:00 PM\n'
-                                        'Sunday: Closed',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: const Color.fromRGBO(243, 241, 241, 1),
-                                          height: 1.5,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                           const SizedBox(height: 32),
                         ],
